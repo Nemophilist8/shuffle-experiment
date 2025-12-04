@@ -5,8 +5,8 @@ set -e
 
 JAR_PATH="target/scala-2.10/spark-shuffle-experiment-1.0.0.jar"
 MASTER="spark://49.52.27.113:7077"
-# TEST_DIR="logs/shuffle_file_test_$(date '+%Y%m%d_%H%M%S')"
-TEST_DIR="logs/shuffle_file_test_20251204_044258"
+TEST_DIR="logs/shuffle_file_test_$(date '+%Y%m%d_%H%M%S')"
+# TEST_DIR="logs/shuffle_file_test_20251204_044258"
 mkdir -p $TEST_DIR
 
 echo "=== Shuffle临时文件数量对比测试 ==="
@@ -65,7 +65,7 @@ run_shuffle_test() {
     
     # 执行Spark作业
     spark-submit \
-        --class edu.ecnu.ShuffleExperiment \
+        --class edu.ecnu.MainEntry \
         --master $MASTER \
         --deploy-mode client \
         --executor-memory 1G \
@@ -82,8 +82,7 @@ run_shuffle_test() {
         --conf spark.shuffle.service.enabled=false \
         --conf spark.shuffle.consolidateFiles=false \
         --conf spark.shuffle.sort.bypassMergeThreshold=1 \
-        $JAR_PATH \
-        "$mode" "$size" 2>&1 | tee "$log_file"
+        $JAR_PATH "file" "$mode" "$size" 2>&1 | tee "$log_file"
     
     local end_time=$(date +%s)
     local duration=$((end_time - start_time))
@@ -98,15 +97,17 @@ run_shuffle_test() {
 
 # === 循环测试 ===
 
-# echo "=== 测试阶段 1: Hash Shuffle ==="
-# for size in small-x small medium large; do
-#     run_shuffle_test "hash" "$size" "Hash Shuffle"
-# done
+# medium large
 
-# echo "=== 测试阶段 2: Sort Shuffle ==="
-# for size in small-x small medium large; do
-#     run_shuffle_test "sort" "$size" "Sort Shuffle"
-# done
+echo "=== 测试阶段 1: Hash Shuffle ==="
+for size in small-x small; do
+    run_shuffle_test "hash" "$size" "Hash Shuffle"
+done
+
+echo "=== 测试阶段 2: Sort Shuffle ==="
+for size in small-x small; do
+    run_shuffle_test "sort" "$size" "Sort Shuffle"
+done
 
 # === 结果分析 ===
 echo "=== 测试结果分析 ==="

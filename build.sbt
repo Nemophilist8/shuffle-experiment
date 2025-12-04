@@ -51,4 +51,4 @@ javaOptions in run ++= Seq(
   "-XX:MaxPermSize=512M"
 )
 
-mainClass in Compile := Some("edu.ecnu.ShuffleExperiment")
+mainClass in Compile := Some("edu.ecnu.MainEntry")

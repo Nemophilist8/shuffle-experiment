@@ -4,7 +4,7 @@
 JAR_PATH="target/scala-2.10/spark-shuffle-experiment-1.0.0.jar"
 MASTER="spark://49.52.27.113:7077"
 DATA_PATH="file:///home/djk/Downloads/tpch-dbgen/gen_data/lineitem-medium.tbl"
-CLASS_NAME="ShuffleExperiment"
+# CLASS_NAME="MainEntry"
 MEMORY="1G"
 TEST_DIR="logs/shuffle_file_test_$(date '+%Y%m%d_%H%M%S')"
 mkdir -p $TEST_DIR
@@ -19,7 +19,7 @@ run_test() {
     echo "------------------------------------------------"
     
     spark-submit \
-    --class edu.ecnu.ShuffleExperiment \
+    --class edu.ecnu.MainEntry \
     --master $MASTER \
     --deploy-mode client \
     --executor-memory 1G \

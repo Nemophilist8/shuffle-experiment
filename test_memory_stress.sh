@@ -81,7 +81,7 @@ run_stress_test() {
     # 注意：这里动态调整了 --executor-memory
     # --driver-memory 保持 1G 即可，主要是限制 executor
     spark-submit \
-        --class edu.ecnu.ShuffleExperiment \
+        --class edu.ecnu.MainEntry \
         --master $MASTER \
         --deploy-mode client \
         --executor-memory $mem \
@@ -99,7 +99,7 @@ run_stress_test() {
         --conf spark.shuffle.compress=true \
         --conf spark.shuffle.spill.compress=true \
         $JAR_PATH \
-        "$mode" "$size" > "$log_file" 2>&1
+        "memory" "$mode" "$size" 2>&1 | tee "$log_file"
     
     # 捕获 spark-submit 的退出码
     local ret_code=$?

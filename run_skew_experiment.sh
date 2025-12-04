@@ -38,7 +38,7 @@ run_test() {
     # 2. 提交任务
     # 注意：参数顺序必须与 Scala 代码 main 函数一致：args(0)=mode, args(1)=size, args(2)=skew
     spark-submit \
-        --class edu.ecnu.ShuffleExperiment \
+        --class edu.ecnu.MainEntry \
         --master $MASTER \
         --deploy-mode client \
         --executor-memory $EXECUTOR_MEM \
@@ -56,7 +56,7 @@ run_test() {
         --conf spark.shuffle.compress=true \
         --conf spark.shuffle.spill.compress=true \
         $JAR_PATH \
-        "$mode" "$size" "$skew" > "$log_file" 2>&1
+        "skew" "$mode" "$size" "$skew" > "$log_file" 2>&1
         
     local ret_code=$?
     

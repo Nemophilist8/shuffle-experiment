@@ -5,8 +5,50 @@ import org.apache.spark.SparkContext
 import scala.util.Random
 
 object DataGenerator {
-
   /**
+   * 生成均匀数据
+   * @param numRecords 记录条数
+   * @param numPartitions RDD分区数
+   */
+  def generateUniformData(sqlContext: SQLContext, numRecords: Long, numPartitions: Int): DataFrame = {
+    import sqlContext.implicits._
+    
+    // 关键修改：parallelize 的第二个参数指定了分区数
+    // 如果不指定，默认通常只有 2 (取决于CPU核数)，会导致 Hash Shuffle 只能产生很少的文件
+    val rdd = sqlContext.sparkContext.parallelize(1L to numRecords, numPartitions).map { id =>
+      val rnd = new Random()
+      // 预先生成一个随机的 byte 数组作为 payload，避免每次循环都生成带来的 CPU 压力
+      // 但为了防止压缩，我们准备几个不同的模版轮询使用
+      val payloadTemplates = (1 to 10).map { _ => 
+        val bytes = new Array[Byte](1024) // 1KB
+        rnd.nextBytes(bytes)
+        new String(bytes, "ISO-8859-1") //以此编码转string保持长度
+      }.toArray
+
+      val key = java.util.UUID.randomUUID().toString
+      val value = rnd.nextDouble() * 1000
+      // 随机选一个模版
+      val bigData = payloadTemplates(rnd.nextInt(payloadTemplates.length))
+      
+      (key, value, "category_placeholder", bigData)
+    }
+    
+    sqlContext.createDataFrame(rdd).toDF("key", "value", "category", "payload")
+  }
+
+  def generateUniform(sqlContext: SQLContext, size: String): DataFrame = {
+    size.toLowerCase match {
+      case "small-x" => generateUniformData(sqlContext, 10000L, 5)
+      case "small"  => generateUniformData(sqlContext, 100000L, 10) 
+      case "medium" => generateUniformData(sqlContext, 1000000L, 50)
+      case "large"  => generateUniformData(sqlContext, 5000000L, 200)
+      case _ => 
+        throw new IllegalArgumentException(s"未知的数据集大小 '$size'，请使用 'small-x'、'small'、'medium' 或 'large'")
+    }
+  }
+  
+
+    /**
    * 构建 Zipf 累积分布函数 (CDF)
    * 用于生成符合 Zipf 分布的随机索引
    */
@@ -29,14 +71,14 @@ object DataGenerator {
       case idx => idx
     }
   }
-  
+
   /**
-   * 生成用户行为数据
+   * 生成倾斜数据
    * @param numRecords 记录条数
    * @param numPartitions RDD分区数
    * @param skew 倾斜度 (0.0 = 均匀/UUID, >0.0 = Zipf倾斜)
    */
-  def generateUserBehavior(sqlContext: SQLContext, numRecords: Long, numPartitions: Int, skew: Double): DataFrame = {
+  def generateSkewData(sqlContext: SQLContext, numRecords: Long, numPartitions: Int, skew: Double): DataFrame = {
     import sqlContext.implicits._
     
     // 定义 Key 的空间大小 (用于 Zipf 采样)
@@ -74,37 +116,15 @@ object DataGenerator {
     
     sqlContext.createDataFrame(rdd).toDF("key", "value", "category", "payload")
   }
-
-  // === 各种规模的工厂方法 (透传 skew 参数) ===
-
-  def generateSmallX(sqlContext: SQLContext, skew: Double): DataFrame = {
-    generateUserBehavior(sqlContext, 10000L, 5, skew)
-  }
-
-  def generateSmall(sqlContext: SQLContext, skew: Double): DataFrame = {
-    generateUserBehavior(sqlContext, 100000L, 10, skew) 
-  }
-
-  def generateMedium(sqlContext: SQLContext, skew: Double): DataFrame = {
-    generateUserBehavior(sqlContext, 1000000L, 50, skew)
-  }
-
-  def generateLarge(sqlContext: SQLContext, skew: Double): DataFrame = {
-    generateUserBehavior(sqlContext, 5000000L, 200, skew)
-  }
   
-  /**
-   * 统一入口
-   */
-  def generate(sqlContext: SQLContext, size: String, skew: Double): DataFrame = {
+  def generateSkew(sqlContext: SQLContext, size: String, skew: Double): DataFrame = {
     size.toLowerCase match {
-      case "small-x" => generateSmallX(sqlContext, skew)
-      case "small"  => generateSmall(sqlContext, skew)
-      case "medium" => generateMedium(sqlContext, skew)
-      case "large"  => generateLarge(sqlContext, skew)
+      case "small-x" => generateSkewData(sqlContext, 10000L, 5, skew)
+      case "small"  => generateSkewData(sqlContext, 100000L, 10, skew) 
+      case "medium" => generateSkewData(sqlContext, 1000000L, 50, skew)
+      case "large"  => generateSkewData(sqlContext, 5000000L, 200, skew)
       case _ => 
-        println(s"警告: 未知的数据集大小 '$size'，默认使用 small")
-        generateSmall(sqlContext, skew)
+        throw new IllegalArgumentException(s"未知的数据集大小 '$size'，请使用 'small-x'、'small'、'medium' 或 'large'")
     }
   }
 
