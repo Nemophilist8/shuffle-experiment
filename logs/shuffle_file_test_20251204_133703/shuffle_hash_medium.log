@@ -1,0 +1,672 @@
+=== Dispatcher: Routing to task [file] ===
+Running File Count Monitor with args: hash medium
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 13:37:06 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 13:37:06 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 13:37:06 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 13:37:06 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 13:37:06 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 13:37:06 INFO SecurityManager: Changing view acls to: djk
+25/12/04 13:37:06 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 13:37:06 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 13:37:06 INFO Utils: Successfully started service 'sparkDriver' on port 41069.
+25/12/04 13:37:07 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 13:37:07 INFO Remoting: Starting remoting
+25/12/04 13:37:07 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:41249]
+25/12/04 13:37:07 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 41249.
+25/12/04 13:37:07 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 13:37:07 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 13:37:07 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-92e899ff-f81d-4670-b11a-1cd9a00d32df
+25/12/04 13:37:07 INFO MemoryStore: MemoryStore started with capacity 143.3 MB
+25/12/04 13:37:07 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 13:37:07 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 13:37:07 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 13:37:07 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-05fcbb89-ef96-4b08-969e-fbf5848d911e/httpd-005c631c-3510-49a1-9b8d-224d17229222
+25/12/04 13:37:07 INFO HttpServer: Starting HTTP Server
+25/12/04 13:37:07 INFO Utils: Successfully started service 'HTTP file server' on port 37229.
+25/12/04 13:37:07 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:37229/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764855427729
+25/12/04 13:37:07 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 13:37:17 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20251204083707-0141
+25/12/04 13:37:17 INFO AppClient$ClientEndpoint: Executor added: app-20251204083707-0141/0 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 13:37:17 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204083707-0141/0 on hostPort 49.52.27.60:35123 with 2 cores, 1024.0 MB RAM
+25/12/04 13:37:17 INFO AppClient$ClientEndpoint: Executor added: app-20251204083707-0141/1 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 13:37:17 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204083707-0141/1 on hostPort 49.52.27.65:34725 with 2 cores, 1024.0 MB RAM
+25/12/04 13:37:17 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 35709.
+25/12/04 13:37:17 INFO NettyBlockTransferService: Server created on 35709
+25/12/04 13:37:17 INFO BlockManagerMaster: Trying to register BlockManager
+25/12/04 13:37:17 INFO BlockManagerMasterEndpoint: Registering block manager 49.52.27.65:35709 with 143.3 MB RAM, BlockManagerId(driver, 49.52.27.65, 35709)
+25/12/04 13:37:17 INFO BlockManagerMaster: Registered BlockManager
+25/12/04 13:37:17 INFO AppClient$ClientEndpoint: Executor updated: app-20251204083707-0141/1 is now RUNNING
+25/12/04 13:37:17 INFO AppClient$ClientEndpoint: Executor updated: app-20251204083707-0141/0 is now RUNNING
+25/12/04 13:37:23 INFO EventLoggingListener: Logging events to file:/tmp/spark-events/app-20251204083707-0141
+25/12/04 13:37:23 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+=== Shuffle File Monitor 实验 ===
+3. Spark版本: 1.6.3
+默认shuffle分区数: 200
+请求的Shuffle Manager: hash
+当前 Shuffle Manager: hash
+Spark 本地目录: /tmp/spark/work
+监控将每秒检查一次 /tmp/spark/work 目录中的 shuffle_* 文件
+测试数据集: medium
+分区数: 100
+>>> 正在进行数据预热 (Cache & Count)...
+>>> 预热完成! 数据已驻留内存。耗时: 30846ms, 记录数: 5000000
+>>> 现在开始正式 Shuffle 实验 (此时文件应该会立即产生)
+
+=== 开始运行 hash 实验 ===
+启动Shuffle文件监控，每秒检查一次...
+[ShuffleMonitor 13:37:55] 文件数: 48, 总大小: 0KB (峰值: 48文件, 0KB)
+[ShuffleMonitor 13:37:56] 文件数: 1016, 总大小: 101.06MB (峰值: 1016文件, 101.06MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1016 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:37:57] 文件数: 1989, 总大小: 238.20MB (峰值: 1989文件, 238.20MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1989 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:37:58] 文件数: 2979, 总大小: 375.94MB (峰值: 2979文件, 375.94MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2979 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:37:59] 文件数: 3958, 总大小: 514.91MB (峰值: 3958文件, 514.91MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3958 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:00] 文件数: 4689, 总大小: 625.78MB (峰值: 4689文件, 625.78MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(4689 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:01] 文件数: 5686, 总大小: 775.54MB (峰值: 5686文件, 775.54MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(5686 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:02] 文件数: 6711, 总大小: 928.13MB (峰值: 6711文件, 928.13MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6711 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:03] 文件数: 7797, 总大小: 1.06GB (峰值: 7797文件, 1.06GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7797 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:05] 文件数: 8728, 总大小: 1.21GB (峰值: 8728文件, 1.21GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8728 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:06] 文件数: 9803, 总大小: 1.36GB (峰值: 9803文件, 1.36GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9803 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:07] 文件数: 10861, 总大小: 1.52GB (峰值: 10861文件, 1.52GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10861 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:08] 文件数: 11896, 总大小: 1.69GB (峰值: 11896文件, 1.69GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11896 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:09] 文件数: 13033, 总大小: 1.85GB (峰值: 13033文件, 1.85GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(13033 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:10] 文件数: 14049, 总大小: 1.99GB (峰值: 14049文件, 1.99GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(14049 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:11] 文件数: 15261, 总大小: 2.16GB (峰值: 15261文件, 2.16GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15261 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:12] 文件数: 16383, 总大小: 2.34GB (峰值: 16383文件, 2.34GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16383 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:14] 文件数: 17555, 总大小: 2.51GB (峰值: 17555文件, 2.51GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17555 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:15] 文件数: 18634, 总大小: 2.67GB (峰值: 18634文件, 2.67GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18634 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:16] 文件数: 20023, 总大小: 2.84GB (峰值: 20023文件, 2.84GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(20023 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:17] 文件数: 21247, 总大小: 3.02GB (峰值: 21247文件, 3.02GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(21247 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:19] 文件数: 22308, 总大小: 3.18GB (峰值: 22308文件, 3.18GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22308 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:20] 文件数: 23380, 总大小: 3.36GB (峰值: 23380文件, 3.36GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23380 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:21] 文件数: 24413, 总大小: 3.53GB (峰值: 24413文件, 3.53GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24413 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:22] 文件数: 25939, 总大小: 3.70GB (峰值: 25939文件, 3.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(25939 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:24] 文件数: 27128, 总大小: 3.86GB (峰值: 27128文件, 3.86GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27128 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:25] 文件数: 28316, 总大小: 4.05GB (峰值: 28316文件, 4.05GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28316 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:26] 文件数: 29364, 总大小: 4.25GB (峰值: 29364文件, 4.25GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29364 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:27] 文件数: 30494, 总大小: 4.39GB (峰值: 30494文件, 4.39GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30494 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:29] 文件数: 32005, 总大小: 4.58GB (峰值: 32005文件, 4.58GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32005 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:30] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:31] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:33] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:34] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:35] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:37] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:38] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:40] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:42] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:43] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:45] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:46] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:47] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:49] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:50] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:51] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:53] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:54] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:56] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:57] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:38:59] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:01] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:02] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:04] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:05] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:07] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:08] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:09] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:11] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:12] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:14] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:15] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:16] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:18] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:19] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:20] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:22] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:24] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:25] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:26] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:27] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:29] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:30] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:31] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:33] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:34] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:35] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:37] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 435.0 in stage 3.0 (TID 636, 49.52.27.60): java.lang.OutOfMemoryError: GC overhead limit exceeded
+	at java.util.Arrays.copyOfRange(Arrays.java:3664)
+	at java.lang.String.<init>(String.java:207)
+	at com.esotericsoftware.kryo.io.Input.readString(Input.java:448)
+	at com.esotericsoftware.kryo.serializers.DefaultArraySerializers$StringArraySerializer.read(DefaultArraySerializers.java:282)
+	at com.esotericsoftware.kryo.serializers.DefaultArraySerializers$StringArraySerializer.read(DefaultArraySerializers.java:262)
+	at com.esotericsoftware.kryo.Kryo.readObject(Kryo.java:648)
+	at com.esotericsoftware.kryo.serializers.FieldSerializer$ObjectField.read(FieldSerializer.java:605)
+	at com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:221)
+	at com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:729)
+	at org.apache.spark.serializer.KryoDeserializationStream.readObject(KryoSerializer.scala:228)
+	at org.apache.spark.serializer.DeserializationStream.readValue(Serializer.scala:171)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$DiskMapIterator.readNextItem(ExternalAppendOnlyMap.scala:478)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$DiskMapIterator.hasNext(ExternalAppendOnlyMap.scala:498)
+	at scala.collection.Iterator$$anon$1.hasNext(Iterator.scala:847)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$ExternalIterator.org$apache$spark$util$collection$ExternalAppendOnlyMap$ExternalIterator$$readNextHashCode(ExternalAppendOnlyMap.scala:299)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$ExternalIterator$$anonfun$next$1.apply(ExternalAppendOnlyMap.scala:372)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$ExternalIterator$$anonfun$next$1.apply(ExternalAppendOnlyMap.scala:370)
+	at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$ExternalIterator.next(ExternalAppendOnlyMap.scala:370)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap$ExternalIterator.next(ExternalAppendOnlyMap.scala:265)
+	at org.apache.spark.util.Utils$.getIteratorSize(Utils.scala:1633)
+	at org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1157)
+	at org.apache.spark.rdd.RDD$$anonfun$count$1.apply(RDD.scala:1157)
+	at org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)
+	at org.apache.spark.SparkContext$$anonfun$runJob$5.apply(SparkContext.scala:1858)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 435.1 in stage 3.0 (TID 701, 49.52.27.60): FetchFailed(BlockManagerId(0, 49.52.27.60, 37249), shuffleId=1, mapId=2, reduceId=435, message=
+org.apache.spark.shuffle.FetchFailedException: Error in opening FileSegmentManagedBuffer{file=/tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435, offset=0, length=24413879}
+	at org.apache.spark.storage.ShuffleBlockFetcherIterator.throwFetchFailedException(ShuffleBlockFetcherIterator.scala:323)
+	at org.apache.spark.storage.ShuffleBlockFetcherIterator.next(ShuffleBlockFetcherIterator.scala:307)
+	at org.apache.spark.storage.ShuffleBlockFetcherIterator.next(ShuffleBlockFetcherIterator.scala:51)
+	at scala.collection.Iterator$$anon$11.next(Iterator.scala:328)
+	at scala.collection.Iterator$$anon$13.hasNext(Iterator.scala:371)
+	at scala.collection.Iterator$$anon$11.hasNext(Iterator.scala:327)
+	at org.apache.spark.util.CompletionIterator.hasNext(CompletionIterator.scala:32)
+	at org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:39)
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap.insertAll(ExternalAppendOnlyMap.scala:152)
+	at org.apache.spark.Aggregator.combineValuesByKey(Aggregator.scala:45)
+	at org.apache.spark.shuffle.BlockStoreShuffleReader.read(BlockStoreShuffleReader.scala:89)
+	at org.apache.spark.rdd.ShuffledRDD.compute(ShuffledRDD.scala:98)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:306)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:270)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+Caused by: java.io.IOException: Error in opening FileSegmentManagedBuffer{file=/tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435, offset=0, length=24413879}
+	at org.apache.spark.network.buffer.FileSegmentManagedBuffer.createInputStream(FileSegmentManagedBuffer.java:113)
+	at org.apache.spark.storage.ShuffleBlockFetcherIterator.next(ShuffleBlockFetcherIterator.scala:304)
+	... 18 more
+Caused by: java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435 (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.apache.spark.network.buffer.FileSegmentManagedBuffer.createInputStream(FileSegmentManagedBuffer.java:98)
+	... 19 more
+
+)
+[ShuffleMonitor 13:39:38] 文件数: 32343, 总大小: 4.70GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32343 个)，这可能是Hash Shuffle的特征
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 0.0 in stage 2.1 (TID 702, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_0_437.01701063-1fe2-406e-bb13-ac031a5021cc (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 1.0 in stage 2.1 (TID 703, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435.5ed4f00f-97b8-4f29-b0a2-c6e6f45846b6 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 2.0 in stage 2.1 (TID 704, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_6_436.be20c18f-a289-4cc0-a172-4bb3072af72e (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 3.0 in stage 2.1 (TID 705, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_7_435.e43f4a4f-ec31-4505-862e-eaec20e71e12 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 1.1 in stage 2.1 (TID 706, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435.5f984435-0ea3-4f78-9a17-ff4ad66a4533 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:38 WARN TaskSetManager: Lost task 2.1 in stage 2.1 (TID 707, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_6_436.16a1802d-cf41-4f19-a080-961567328441 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 3.1 in stage 2.1 (TID 708, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_7_435.d6ec9e04-665c-4e0b-9397-37abc901287a (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 1.2 in stage 2.1 (TID 709, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435.8c8b63ba-a8b2-4437-8e28-0a40c93d9847 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 3.2 in stage 2.1 (TID 711, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3c/shuffle_1_7_437.f4fa67a1-319e-49e1-8cab-a135c53fe803 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 2.2 in stage 2.1 (TID 710, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_6_436.4e0b9142-df7d-4739-bf5c-c12b341c3deb (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 3.3 in stage 2.1 (TID 713, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3c/shuffle_1_7_437.a0348335-866e-4de6-bf26-25ac8dddbd5f (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 ERROR TaskSetManager: Task 3 in stage 2.1 failed 4 times; aborting job
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 1.3 in stage 2.1 (TID 712, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/35/shuffle_1_2_435.1d991666-5092-4636-a79a-b3c91363e691 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+25/12/04 13:39:39 WARN TaskSetManager: Lost task 2.3 in stage 2.1 (TID 714, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3a/shuffle_1_6_436.52403edd-eeee-4a2b-bf70-d0f2d702bf14 (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+Exception in thread "main" org.apache.spark.SparkException: Job aborted due to stage failure: Task 3 in stage 2.1 failed 4 times, most recent failure: Lost task 3.3 in stage 2.1 (TID 713, 49.52.27.60): java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3c/shuffle_1_7_437.a0348335-866e-4de6-bf26-25ac8dddbd5f (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+Driver stacktrace:
+	at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1431)
+	at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1419)
+	at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1418)
+	at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)
+	at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1418)
+	at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)
+	at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:799)
+	at scala.Option.foreach(Option.scala:236)
+	at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:799)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1640)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1599)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1588)
+	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)
+	at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:620)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:1832)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:1845)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:1858)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:1929)
+	at org.apache.spark.rdd.RDD.count(RDD.scala:1157)
+	at edu.ecnu.FileCountMonitor$.runExperiment(FileCountMonitor.scala:141)
+	at edu.ecnu.FileCountMonitor$.run(FileCountMonitor.scala:88)
+	at edu.ecnu.MainEntry$.main(MainEntry.scala:20)
+	at edu.ecnu.MainEntry.main(MainEntry.scala)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.spark.deploy.SparkSubmit$.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:731)
+	at org.apache.spark.deploy.SparkSubmit$.doRunMain$1(SparkSubmit.scala:181)
+	at org.apache.spark.deploy.SparkSubmit$.submit(SparkSubmit.scala:206)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:121)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.io.FileNotFoundException: /tmp/spark/work/spark-8a7f7c7e-f3b8-4789-8bf7-16307955151b/executor-be3e63ba-bb5d-4f50-b7b0-4c6677ad3838/blockmgr-75a5e6f4-b1cc-40d7-905d-b42528faabe4/3c/shuffle_1_7_437.a0348335-866e-4de6-bf26-25ac8dddbd5f (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at org.apache.spark.storage.DiskBlockObjectWriter.open(DiskBlockObjectWriter.scala:88)
+	at org.apache.spark.storage.DiskBlockObjectWriter.write(DiskBlockObjectWriter.scala:181)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:68)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter$$anonfun$write$1.apply(HashShuffleWriter.scala:66)
+	at scala.collection.Iterator$class.foreach(Iterator.scala:727)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1157)
+	at org.apache.spark.shuffle.hash.HashShuffleWriter.write(HashShuffleWriter.scala:66)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:73)
+	at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:41)
+	at org.apache.spark.scheduler.Task.run(Task.scala:89)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:227)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+[ShuffleMonitor 13:39:39] 文件数: 32252, 总大小: 4.68GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32252 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:41] 文件数: 28630, 总大小: 3.78GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28630 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:42] 文件数: 18157, 总大小: 2.19GB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18157 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:43] 文件数: 6773, 总大小: 965.07MB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6773 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 13:39:44] 文件数: 323, 总大小: 73.08MB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:45] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:46] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:47] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:48] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:49] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:50] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:51] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:52] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:53] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:54] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:55] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:56] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:57] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:58] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:39:59] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:00] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:01] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:02] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:03] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:04] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:05] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:06] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:07] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:08] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:09] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:10] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:11] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:12] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:13] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:14] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:15] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:16] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:17] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:18] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:19] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:20] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:21] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:22] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:23] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:24] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:25] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:26] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:27] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:28] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:29] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:30] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:31] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:32] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:33] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:34] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:35] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:36] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:37] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:38] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:39] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:40] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:41] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:42] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:43] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:44] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:45] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)
+[ShuffleMonitor 13:40:46] 文件数: 0, 总大小: 0KB (峰值: 32343文件, 4.70GB)

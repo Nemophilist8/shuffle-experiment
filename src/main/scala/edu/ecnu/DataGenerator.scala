@@ -6,6 +6,75 @@ import scala.util.Random
 
 object DataGenerator {
   /**
+  * 生成倾斜数据 -- djk测试
+  * @param skewRatio 倾斜比例 (0.0 - 1.0)。例如 0.9 表示 90% 的数据集中在少数几个 Key 上。
+  * @param numHotKeys 热点 Key 的数量。
+  */
+  def generateSkewedData(sqlContext: SQLContext, 
+                        numRecords: Long, 
+                        numPartitions: Int, 
+                        skewRatio: Double = 0.9, 
+                        numHotKeys: Int = 3): DataFrame = {
+    import sqlContext.implicits._
+
+    // 使用 mapPartitions 代替 map，减少 Random 和 payload 模板的初始化开销，提高生成速度
+    val rdd = sqlContext.sparkContext.parallelize(1L to numRecords, numPartitions).mapPartitions { iter =>
+      val rnd = new Random()
+      
+      // 1. 预生成 payload 模板 (1KB)
+      val payloadTemplates = (1 to 10).map { _ =>
+        val bytes = new Array[Byte](1024)
+        rnd.nextBytes(bytes)
+        new String(bytes, "ISO-8859-1")
+      }.toArray
+
+      // 2. 定义少量的 "热点 Key"
+      val hotKeys = (1 to numHotKeys).map(i => s"HOT_KEY_$i").toArray
+
+      iter.map { id =>
+        // 核心逻辑：根据 skewRatio 决定是生成热点 Key 还是随机 Key
+        val isSkewed = rnd.nextDouble() < skewRatio
+        
+        val key = if (isSkewed) {
+          // 90% 的情况：从 3 个热点 Key 中随机选一个 -> 造成极度拥堵
+          hotKeys(rnd.nextInt(hotKeys.length))
+        } else {
+          // 10% 的情况：生成唯一的 UUID -> 长尾数据
+          java.util.UUID.randomUUID().toString
+        }
+
+        val value = rnd.nextDouble() * 1000
+        val bigData = payloadTemplates(rnd.nextInt(payloadTemplates.length))
+        
+        // 这里的 category 也跟随 key 进行倾斜，方便后续 GroupBy 测试
+        val category = if (isSkewed) "Category_Hot" else "Category_Random"
+
+        (key, value, category, bigData)
+      }
+    }
+
+    sqlContext.createDataFrame(rdd).toDF("key", "value", "category", "payload")
+  }
+
+  def generateSkewed(sqlContext: SQLContext, size: String): DataFrame = {
+    // 定义倾斜配置：95% 的数据只属于 3 个 Key
+    val skewRatio = 0.95
+    val hotKeys = 5
+
+    size.toLowerCase match {
+      // 增加数据量，因为 Shuffle 性能测试需要足够的压力
+      case "small-x" => generateSkewedData(sqlContext, 50000L, 5, skewRatio, hotKeys)
+      case "small"   => generateSkewedData(sqlContext, 500000L, 20, skewRatio, hotKeys)
+      case "medium"  => generateSkewedData(sqlContext, 5000000L, 100, skewRatio, hotKeys)
+      case "large"   => generateSkewedData(sqlContext, 20000000L, 400, skewRatio, hotKeys)
+      case _ =>
+        throw new IllegalArgumentException(s"未知的数据集大小 '$size'")
+    }
+  }
+
+
+
+  /**
    * 生成均匀数据
    * @param numRecords 记录条数
    * @param numPartitions RDD分区数

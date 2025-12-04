@@ -1,0 +1,375 @@
+=== Dispatcher: Routing to task [file] ===
+Running File Count Monitor with args: hash large
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 09:15:28 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 09:15:28 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 09:15:28 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 09:15:28 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 09:15:28 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 09:15:28 INFO SecurityManager: Changing view acls to: djk
+25/12/04 09:15:28 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 09:15:28 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 09:15:28 INFO Utils: Successfully started service 'sparkDriver' on port 36159.
+25/12/04 09:15:28 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 09:15:28 INFO Remoting: Starting remoting
+25/12/04 09:15:28 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:33393]
+25/12/04 09:15:28 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 33393.
+25/12/04 09:15:28 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 09:15:28 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 09:15:28 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-4c6ea9b0-7d2e-4366-883b-30cce0be80d1
+25/12/04 09:15:28 INFO MemoryStore: MemoryStore started with capacity 143.3 MB
+25/12/04 09:15:29 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 09:15:29 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 09:15:29 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 09:15:29 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-1941c9c6-e56b-4ad4-ba5b-cc698d6115ad/httpd-7cc62b77-2862-4f0f-80a4-5ecf395da297
+25/12/04 09:15:29 INFO HttpServer: Starting HTTP Server
+25/12/04 09:15:29 INFO Utils: Successfully started service 'HTTP file server' on port 34143.
+25/12/04 09:15:29 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:34143/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764839729475
+25/12/04 09:15:29 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 09:15:39 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20251204041529-0111
+25/12/04 09:15:39 INFO AppClient$ClientEndpoint: Executor added: app-20251204041529-0111/0 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 09:15:39 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204041529-0111/0 on hostPort 49.52.27.60:35123 with 2 cores, 1024.0 MB RAM
+25/12/04 09:15:39 INFO AppClient$ClientEndpoint: Executor added: app-20251204041529-0111/1 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 09:15:39 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204041529-0111/1 on hostPort 49.52.27.65:34725 with 2 cores, 1024.0 MB RAM
+25/12/04 09:15:39 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39717.
+25/12/04 09:15:39 INFO NettyBlockTransferService: Server created on 39717
+25/12/04 09:15:39 INFO BlockManagerMaster: Trying to register BlockManager
+25/12/04 09:15:39 INFO BlockManagerMasterEndpoint: Registering block manager 49.52.27.65:39717 with 143.3 MB RAM, BlockManagerId(driver, 49.52.27.65, 39717)
+25/12/04 09:15:39 INFO BlockManagerMaster: Registered BlockManager
+25/12/04 09:15:39 INFO AppClient$ClientEndpoint: Executor updated: app-20251204041529-0111/1 is now RUNNING
+25/12/04 09:15:39 INFO AppClient$ClientEndpoint: Executor updated: app-20251204041529-0111/0 is now RUNNING
+25/12/04 09:15:49 INFO EventLoggingListener: Logging events to file:/tmp/spark-events/app-20251204041529-0111
+25/12/04 09:15:49 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+=== Shuffle File Monitor 实验 ===
+3. Spark版本: 1.6.3
+默认shuffle分区数: 200
+请求的Shuffle Manager: hash
+当前 Shuffle Manager: hash
+Spark 本地目录: /tmp/spark/work
+监控将每秒检查一次 /tmp/spark/work 目录中的 shuffle_* 文件
+测试数据集: large
+分区数: 200
+>>> 正在进行数据预热 (Cache & Count)...
+>>> 预热完成! 数据已驻留内存。耗时: 106859ms, 记录数: 5000000
+>>> 现在开始正式 Shuffle 实验 (此时文件应该会立即产生)
+
+=== 开始运行 hash 实验 ===
+启动Shuffle文件监控，每秒检查一次...
+[ShuffleMonitor 09:17:37] 文件数: 103, 总大小: 2KB (峰值: 103文件, 2KB)
+[ShuffleMonitor 09:17:38] 文件数: 1075, 总大小: 2KB (峰值: 1075文件, 2KB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1075 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:39] 文件数: 1103, 总大小: 2KB (峰值: 1103文件, 2KB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:40] 文件数: 1103, 总大小: 2KB (峰值: 1103文件, 2KB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:41] 文件数: 1103, 总大小: 2KB (峰值: 1103文件, 2KB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:42] 文件数: 1103, 总大小: 11.81MB (峰值: 1103文件, 11.81MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:43] 文件数: 1886, 总大小: 75.25MB (峰值: 1886文件, 75.25MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(1886 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:44] 文件数: 2011, 总大小: 75.25MB (峰值: 2011文件, 75.25MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2011 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:45] 文件数: 2099, 总大小: 75.25MB (峰值: 2099文件, 75.25MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2099 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:47] 文件数: 2103, 总大小: 75.25MB (峰值: 2103文件, 75.25MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:48] 文件数: 2103, 总大小: 76.50MB (峰值: 2103文件, 76.50MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:49] 文件数: 2103, 总大小: 108.87MB (峰值: 2103文件, 108.87MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(2103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:50] 文件数: 3088, 总大小: 150.49MB (峰值: 3088文件, 150.49MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3088 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:51] 文件数: 3103, 总大小: 150.49MB (峰值: 3103文件, 150.49MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:52] 文件数: 3103, 总大小: 150.49MB (峰值: 3103文件, 150.49MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:53] 文件数: 3103, 总大小: 158.12MB (峰值: 3103文件, 158.12MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:54] 文件数: 3095, 总大小: 208.46MB (峰值: 3103文件, 208.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(3095 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:55] 文件数: 4103, 总大小: 225.74MB (峰值: 4103文件, 225.74MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(4103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:56] 文件数: 4103, 总大小: 257.11MB (峰值: 4103文件, 257.11MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(4103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:57] 文件数: 5099, 总大小: 300.98MB (峰值: 5099文件, 300.98MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(5099 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:58] 文件数: 5103, 总大小: 300.98MB (峰值: 5103文件, 300.98MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(5103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:17:59] 文件数: 5103, 总大小: 302.30MB (峰值: 5103文件, 302.30MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(5103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:00] 文件数: 5103, 总大小: 336.61MB (峰值: 5103文件, 336.61MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(5103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:01] 文件数: 6103, 总大小: 376.23MB (峰值: 6103文件, 376.23MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:02] 文件数: 6103, 总大小: 376.23MB (峰值: 6103文件, 376.23MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:03] 文件数: 6103, 总大小: 376.23MB (峰值: 6103文件, 376.23MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:05] 文件数: 6103, 总大小: 381.42MB (峰值: 6103文件, 381.42MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:06] 文件数: 6103, 总大小: 404.85MB (峰值: 6103文件, 404.85MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(6103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:07] 文件数: 7055, 总大小: 451.48MB (峰值: 7055文件, 451.48MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7055 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:08] 文件数: 7103, 总大小: 451.48MB (峰值: 7103文件, 451.48MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:09] 文件数: 7103, 总大小: 451.48MB (峰值: 7103文件, 451.48MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:10] 文件数: 7103, 总大小: 460.41MB (峰值: 7103文件, 460.41MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:11] 文件数: 7103, 总大小: 490.79MB (峰值: 7103文件, 490.79MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(7103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:12] 文件数: 8098, 总大小: 526.72MB (峰值: 8098文件, 526.72MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8098 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:13] 文件数: 8103, 总大小: 526.72MB (峰值: 8103文件, 526.72MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:14] 文件数: 8103, 总大小: 526.78MB (峰值: 8103文件, 526.78MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:15] 文件数: 8103, 总大小: 531.66MB (峰值: 8103文件, 531.66MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:16] 文件数: 8103, 总大小: 555.97MB (峰值: 8103文件, 555.97MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:18] 文件数: 8943, 总大小: 601.96MB (峰值: 8943文件, 601.96MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(8943 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:19] 文件数: 9103, 总大小: 601.96MB (峰值: 9103文件, 601.96MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:20] 文件数: 9103, 总大小: 601.96MB (峰值: 9103文件, 601.96MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:21] 文件数: 9103, 总大小: 602.15MB (峰值: 9103文件, 602.15MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:22] 文件数: 9103, 总大小: 605.09MB (峰值: 9103文件, 605.09MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:23] 文件数: 9103, 总大小: 624.28MB (峰值: 9103文件, 624.28MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:24] 文件数: 9837, 总大小: 677.21MB (峰值: 9837文件, 677.21MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(9837 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:25] 文件数: 10074, 总大小: 677.21MB (峰值: 10074文件, 677.21MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10074 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:26] 文件数: 10103, 总大小: 677.21MB (峰值: 10103文件, 677.21MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:27] 文件数: 10103, 总大小: 677.21MB (峰值: 10103文件, 677.21MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:29] 文件数: 10103, 总大小: 677.40MB (峰值: 10103文件, 677.40MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:30] 文件数: 10103, 总大小: 686.46MB (峰值: 10103文件, 686.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:31] 文件数: 10103, 总大小: 724.52MB (峰值: 10103文件, 724.52MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:32] 文件数: 10986, 总大小: 752.46MB (峰值: 10986文件, 752.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(10986 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:33] 文件数: 11103, 总大小: 752.46MB (峰值: 11103文件, 752.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:34] 文件数: 11103, 总大小: 752.46MB (峰值: 11103文件, 752.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:35] 文件数: 11103, 总大小: 752.46MB (峰值: 11103文件, 752.46MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:36] 文件数: 11103, 总大小: 756.21MB (峰值: 11103文件, 756.21MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:38] 文件数: 11103, 总大小: 790.64MB (峰值: 11103文件, 790.64MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:39] 文件数: 11955, 总大小: 827.70MB (峰值: 11955文件, 827.70MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(11955 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:40] 文件数: 12103, 总大小: 827.70MB (峰值: 12103文件, 827.70MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(12103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:41] 文件数: 12103, 总大小: 827.70MB (峰值: 12103文件, 827.70MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(12103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:42] 文件数: 12103, 总大小: 827.76MB (峰值: 12103文件, 827.76MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(12103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:43] 文件数: 12103, 总大小: 832.83MB (峰值: 12103文件, 832.83MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(12103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:44] 文件数: 12103, 总大小: 872.14MB (峰值: 12103文件, 872.14MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(12103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:46] 文件数: 13103, 总大小: 902.95MB (峰值: 13103文件, 902.95MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(13103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:47] 文件数: 13103, 总大小: 934.01MB (峰值: 13103文件, 934.01MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(13103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:48] 文件数: 14103, 总大小: 978.20MB (峰值: 14103文件, 978.20MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(14103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:49] 文件数: 14103, 总大小: 978.26MB (峰值: 14103文件, 978.26MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(14103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:50] 文件数: 14103, 总大小: 984.57MB (峰值: 14103文件, 984.57MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(14103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:52] 文件数: 14103, 总大小: 1016.76MB (峰值: 14103文件, 1016.76MB)
+[ShuffleMonitor 警告] 检测到大量临时文件(14103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:53] 文件数: 15101, 总大小: 1.03GB (峰值: 15101文件, 1.03GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15101 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:54] 文件数: 15103, 总大小: 1.03GB (峰值: 15103文件, 1.03GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:55] 文件数: 15103, 总大小: 1.03GB (峰值: 15103文件, 1.03GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:56] 文件数: 15103, 总大小: 1.04GB (峰值: 15103文件, 1.04GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:57] 文件数: 15103, 总大小: 1.07GB (峰值: 15103文件, 1.07GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(15103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:18:59] 文件数: 16079, 总大小: 1.10GB (峰值: 16079文件, 1.10GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16079 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:00] 文件数: 16103, 总大小: 1.10GB (峰值: 16103文件, 1.10GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:01] 文件数: 16103, 总大小: 1.10GB (峰值: 16103文件, 1.10GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:02] 文件数: 16103, 总大小: 1.10GB (峰值: 16103文件, 1.10GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:03] 文件数: 16103, 总大小: 1.13GB (峰值: 16103文件, 1.13GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:05] 文件数: 16976, 总大小: 1.18GB (峰值: 16976文件, 1.18GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(16976 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:06] 文件数: 17103, 总大小: 1.18GB (峰值: 17103文件, 1.18GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:07] 文件数: 17103, 总大小: 1.18GB (峰值: 17103文件, 1.18GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:08] 文件数: 17103, 总大小: 1.18GB (峰值: 17103文件, 1.18GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:09] 文件数: 17103, 总大小: 1.19GB (峰值: 17103文件, 1.19GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:11] 文件数: 17301, 总大小: 1.24GB (峰值: 17301文件, 1.24GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(17301 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:12] 文件数: 18093, 总大小: 1.25GB (峰值: 18093文件, 1.25GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18093 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:13] 文件数: 18103, 总大小: 1.25GB (峰值: 18103文件, 1.25GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:14] 文件数: 18103, 总大小: 1.25GB (峰值: 18103文件, 1.25GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:15] 文件数: 18103, 总大小: 1.25GB (峰值: 18103文件, 1.25GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:17] 文件数: 18103, 总大小: 1.28GB (峰值: 18103文件, 1.28GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:18] 文件数: 18968, 总大小: 1.32GB (峰值: 18968文件, 1.32GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(18968 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:19] 文件数: 19103, 总大小: 1.33GB (峰值: 19103文件, 1.33GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(19103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:20] 文件数: 20011, 总大小: 1.40GB (峰值: 20011文件, 1.40GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(20011 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:21] 文件数: 20103, 总大小: 1.41GB (峰值: 20103文件, 1.41GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(20103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:23] 文件数: 21103, 总大小: 1.47GB (峰值: 21103文件, 1.47GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(21103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:24] 文件数: 21103, 总大小: 1.47GB (峰值: 21103文件, 1.47GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(21103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:25] 文件数: 21103, 总大小: 1.49GB (峰值: 21103文件, 1.49GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(21103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:26] 文件数: 21580, 总大小: 1.54GB (峰值: 21580文件, 1.54GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(21580 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:27] 文件数: 22103, 总大小: 1.54GB (峰值: 22103文件, 1.54GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:29] 文件数: 22103, 总大小: 1.54GB (峰值: 22103文件, 1.54GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:30] 文件数: 22103, 总大小: 1.55GB (峰值: 22103文件, 1.55GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:31] 文件数: 22101, 总大小: 1.58GB (峰值: 22103文件, 1.58GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22101 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:32] 文件数: 22975, 总大小: 1.62GB (峰值: 22975文件, 1.62GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(22975 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:34] 文件数: 23103, 总大小: 1.62GB (峰值: 23103文件, 1.62GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:35] 文件数: 23103, 总大小: 1.62GB (峰值: 23103文件, 1.62GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:36] 文件数: 23103, 总大小: 1.62GB (峰值: 23103文件, 1.62GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:37] 文件数: 23103, 总大小: 1.63GB (峰值: 23103文件, 1.63GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:39] 文件数: 23612, 总大小: 1.69GB (峰值: 23612文件, 1.69GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(23612 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:40] 文件数: 24066, 总大小: 1.69GB (峰值: 24066文件, 1.69GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24066 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:41] 文件数: 24103, 总大小: 1.69GB (峰值: 24103文件, 1.69GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:43] 文件数: 24103, 总大小: 1.69GB (峰值: 24103文件, 1.69GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:44] 文件数: 24103, 总大小: 1.70GB (峰值: 24103文件, 1.70GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:45] 文件数: 24370, 总大小: 1.75GB (峰值: 24370文件, 1.75GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(24370 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:46] 文件数: 25103, 总大小: 1.76GB (峰值: 25103文件, 1.76GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(25103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:48] 文件数: 25773, 总大小: 1.84GB (峰值: 25773文件, 1.84GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(25773 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:49] 文件数: 26103, 总大小: 1.84GB (峰值: 26103文件, 1.84GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(26103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:50] 文件数: 26103, 总大小: 1.85GB (峰值: 26103文件, 1.85GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(26103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:51] 文件数: 26211, 总大小: 1.89GB (峰值: 26211文件, 1.89GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(26211 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:53] 文件数: 27101, 总大小: 1.91GB (峰值: 27101文件, 1.91GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27101 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:54] 文件数: 27103, 总大小: 1.91GB (峰值: 27103文件, 1.91GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:55] 文件数: 27103, 总大小: 1.91GB (峰值: 27103文件, 1.91GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:57] 文件数: 27103, 总大小: 1.93GB (峰值: 27103文件, 1.93GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:58] 文件数: 27907, 总大小: 1.98GB (峰值: 27907文件, 1.98GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(27907 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:19:59] 文件数: 28102, 总大小: 1.98GB (峰值: 28102文件, 1.98GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28102 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:01] 文件数: 28103, 总大小: 1.98GB (峰值: 28103文件, 1.98GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:02] 文件数: 28103, 总大小: 1.99GB (峰值: 28103文件, 1.99GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:03] 文件数: 28103, 总大小: 2.01GB (峰值: 28103文件, 2.01GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:05] 文件数: 28926, 总大小: 2.06GB (峰值: 28926文件, 2.06GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(28926 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:06] 文件数: 29103, 总大小: 2.06GB (峰值: 29103文件, 2.06GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:07] 文件数: 29103, 总大小: 2.06GB (峰值: 29103文件, 2.06GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:08] 文件数: 29103, 总大小: 2.06GB (峰值: 29103文件, 2.06GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:10] 文件数: 29103, 总大小: 2.08GB (峰值: 29103文件, 2.08GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:11] 文件数: 29633, 总大小: 2.13GB (峰值: 29633文件, 2.13GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(29633 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:12] 文件数: 30100, 总大小: 2.13GB (峰值: 30100文件, 2.13GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30100 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:14] 文件数: 30103, 总大小: 2.13GB (峰值: 30103文件, 2.13GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:15] 文件数: 30103, 总大小: 2.13GB (峰值: 30103文件, 2.13GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:16] 文件数: 30103, 总大小: 2.15GB (峰值: 30103文件, 2.15GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:18] 文件数: 30504, 总大小: 2.19GB (峰值: 30504文件, 2.19GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(30504 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:19] 文件数: 31103, 总大小: 2.20GB (峰值: 31103文件, 2.20GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(31103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:20] 文件数: 31584, 总大小: 2.26GB (峰值: 31584文件, 2.26GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(31584 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:22] 文件数: 32103, 总大小: 2.28GB (峰值: 32103文件, 2.28GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:23] 文件数: 32593, 总大小: 2.34GB (峰值: 32593文件, 2.34GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(32593 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:24] 文件数: 33103, 总大小: 2.36GB (峰值: 33103文件, 2.36GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(33103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:26] 文件数: 33592, 总大小: 2.42GB (峰值: 33592文件, 2.42GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(33592 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:27] 文件数: 34103, 总大小: 2.42GB (峰值: 34103文件, 2.42GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(34103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:28] 文件数: 34103, 总大小: 2.44GB (峰值: 34103文件, 2.44GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(34103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:30] 文件数: 34593, 总大小: 2.49GB (峰值: 34593文件, 2.49GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(34593 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:31] 文件数: 35103, 总大小: 2.50GB (峰值: 35103文件, 2.50GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(35103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:32] 文件数: 35103, 总大小: 2.50GB (峰值: 35103文件, 2.50GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(35103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:34] 文件数: 35152, 总大小: 2.54GB (峰值: 35152文件, 2.54GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(35152 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:35] 文件数: 36103, 总大小: 2.57GB (峰值: 36103文件, 2.57GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(36103 个)，这可能是Hash Shuffle的特征
+[ShuffleMonitor 09:20:37] 文件数: 36103, 总大小: 2.58GB (峰值: 36103文件, 2.58GB)
+[ShuffleMonitor 警告] 检测到大量临时文件(36103 个)，这可能是Hash Shuffle的特征
+
+[ShuffleMonitor 最终报告]
+峰值文件数: 36103
+峰值文件大小: 2.58GB
+推测Shuffle类型: Hash Shuffle（文件数>500）
+
+==================================================
+测试结果 [hash]:
+  执行耗时: 304988ms
+  Shuffle数据量: 7.35 GB
+  峰值Shuffle文件数: 36103 个
+  峰值Shuffle文件大小: 2702541KB (2639.20MB)
+  Shuffle类型分析: Hash Shuffle (检测到大量小文件: 36103 个)
+  平均每个文件大小: 74KB
+  ⚠️  警告: 检测到大量小文件(36103)个，建议使用Sort Shuffle

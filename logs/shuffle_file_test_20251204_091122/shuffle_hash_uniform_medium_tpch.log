@@ -1,0 +1,40 @@
+=== Dispatcher: Routing to task [tpch] ===
+Running File Count Monitor with args: hash file:///home/djk/Downloads/tpch-dbgen/gen_data/lineitem-medium.tbl uniform medium
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 09:11:23 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 09:11:23 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 09:11:23 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 09:11:23 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 09:11:23 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 09:11:23 INFO SecurityManager: Changing view acls to: djk
+25/12/04 09:11:23 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 09:11:23 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 09:11:23 INFO Utils: Successfully started service 'sparkDriver' on port 35103.
+25/12/04 09:11:23 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 09:11:23 INFO Remoting: Starting remoting
+25/12/04 09:11:24 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:40105]
+25/12/04 09:11:24 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 40105.
+25/12/04 09:11:24 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 09:11:24 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 09:11:24 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-cdc00eda-65ff-44fa-9cf6-e97226518f62
+25/12/04 09:11:24 INFO MemoryStore: MemoryStore started with capacity 143.3 MB
+25/12/04 09:11:24 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 09:11:24 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 09:11:24 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 09:11:24 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-b1d2b444-8c4a-4f75-9dc6-7e72d25ccabd/httpd-1d4be068-b2c2-45f9-8bd0-de1a16aaeea6
+25/12/04 09:11:24 INFO HttpServer: Starting HTTP Server
+25/12/04 09:11:24 INFO Utils: Successfully started service 'HTTP file server' on port 41957.
+25/12/04 09:11:24 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:41957/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764839484575
+25/12/04 09:11:24 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 09:11:34 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20251204041124-0106
+25/12/04 09:11:34 INFO AppClient$ClientEndpoint: Executor added: app-20251204041124-0106/0 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 09:11:34 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204041124-0106/0 on hostPort 49.52.27.60:35123 with 2 cores, 1024.0 MB RAM
+25/12/04 09:11:34 INFO AppClient$ClientEndpoint: Executor added: app-20251204041124-0106/1 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 09:11:34 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204041124-0106/1 on hostPort 49.52.27.65:34725 with 2 cores, 1024.0 MB RAM
+25/12/04 09:11:34 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40597.
+25/12/04 09:11:34 INFO NettyBlockTransferService: Server created on 40597
+25/12/04 09:11:34 INFO BlockManagerMaster: Trying to register BlockManager
+25/12/04 09:11:34 INFO BlockManagerMasterEndpoint: Registering block manager 49.52.27.65:40597 with 143.3 MB RAM, BlockManagerId(driver, 49.52.27.65, 40597)
+25/12/04 09:11:34 INFO BlockManagerMaster: Registered BlockManager
+25/12/04 09:11:34 INFO AppClient$ClientEndpoint: Executor updated: app-20251204041124-0106/1 is now RUNNING
+25/12/04 09:11:34 INFO AppClient$ClientEndpoint: Executor updated: app-20251204041124-0106/0 is now RUNNING

@@ -22,7 +22,7 @@ object FileCountMonitor {
       .setAppName(s"Shuffle-File-Monitor-$mode")
       .set("spark.sql.adaptive.enabled", "false")
       .set("spark.shuffle.compress", "false")
-      .set("spark.shuffle.spill.compress", "false")
+      .set("spark.shuffle.spill.compress", "true")
       // 增加缓冲区，让 Sort Shuffle 更有优势
       .set("spark.shuffle.file.buffer", "64k")
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
@@ -59,6 +59,14 @@ object FileCountMonitor {
         case "medium" => DataGenerator.generateUniform(sqlContext, "medium")
         case "large" => DataGenerator.generateUniform(sqlContext, "large")
       }
+
+      // djk测试倾斜数据
+      // val df = datasetSize match {
+      //   case "small-x" => DataGenerator.generateSkewed(sqlContext, "small-x")
+      //   case "small" => DataGenerator.generateSkewed(sqlContext, "small")
+      //   case "medium" => DataGenerator.generateSkewed(sqlContext, "medium")
+      //   case "large" => DataGenerator.generateSkewed(sqlContext, "large")
+      // }
 
       println(s"测试数据集: $datasetSize")
       // println(s"测试数据集V2: $size, 记录数: ${df.count()}")

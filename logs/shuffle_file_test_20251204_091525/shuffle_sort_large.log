@@ -1,0 +1,225 @@
+=== Dispatcher: Routing to task [file] ===
+Running File Count Monitor with args: sort large
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 09:22:56 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 09:22:56 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 09:22:56 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 09:22:56 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 09:22:56 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 09:22:56 INFO SecurityManager: Changing view acls to: djk
+25/12/04 09:22:56 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 09:22:56 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 09:22:56 INFO Utils: Successfully started service 'sparkDriver' on port 36587.
+25/12/04 09:22:57 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 09:22:57 INFO Remoting: Starting remoting
+25/12/04 09:22:57 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:37667]
+25/12/04 09:22:57 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 37667.
+25/12/04 09:22:57 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 09:22:57 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 09:22:57 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-5acced2e-4d66-425b-863e-c45c1d32c6fe
+25/12/04 09:22:57 INFO MemoryStore: MemoryStore started with capacity 143.3 MB
+25/12/04 09:22:57 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 09:22:57 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 09:22:57 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 09:22:57 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-e7765cb3-8bbc-4d91-89f4-fef3c57a3445/httpd-c409ccd2-2541-45b4-90ad-508ec88f1298
+25/12/04 09:22:57 INFO HttpServer: Starting HTTP Server
+25/12/04 09:22:57 INFO Utils: Successfully started service 'HTTP file server' on port 39013.
+25/12/04 09:22:57 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:39013/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764840177723
+25/12/04 09:22:57 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 09:23:07 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20251204042257-0112
+25/12/04 09:23:07 INFO AppClient$ClientEndpoint: Executor added: app-20251204042257-0112/0 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 09:23:07 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204042257-0112/0 on hostPort 49.52.27.60:35123 with 2 cores, 1024.0 MB RAM
+25/12/04 09:23:07 INFO AppClient$ClientEndpoint: Executor added: app-20251204042257-0112/1 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 09:23:07 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204042257-0112/1 on hostPort 49.52.27.65:34725 with 2 cores, 1024.0 MB RAM
+25/12/04 09:23:07 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36975.
+25/12/04 09:23:07 INFO NettyBlockTransferService: Server created on 36975
+25/12/04 09:23:07 INFO BlockManagerMaster: Trying to register BlockManager
+25/12/04 09:23:07 INFO BlockManagerMasterEndpoint: Registering block manager 49.52.27.65:36975 with 143.3 MB RAM, BlockManagerId(driver, 49.52.27.65, 36975)
+25/12/04 09:23:07 INFO BlockManagerMaster: Registered BlockManager
+25/12/04 09:23:07 INFO AppClient$ClientEndpoint: Executor updated: app-20251204042257-0112/1 is now RUNNING
+25/12/04 09:23:07 INFO AppClient$ClientEndpoint: Executor updated: app-20251204042257-0112/0 is now RUNNING
+25/12/04 09:23:18 INFO EventLoggingListener: Logging events to file:/tmp/spark-events/app-20251204042257-0112
+25/12/04 09:23:18 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+=== Shuffle File Monitor 实验 ===
+3. Spark版本: 1.6.3
+默认shuffle分区数: 200
+请求的Shuffle Manager: sort
+当前 Shuffle Manager: sort
+Spark 本地目录: /tmp/spark/work
+监控将每秒检查一次 /tmp/spark/work 目录中的 shuffle_* 文件
+测试数据集: large
+分区数: 200
+>>> 正在进行数据预热 (Cache & Count)...
+>>> 预热完成! 数据已驻留内存。耗时: 111343ms, 记录数: 5000000
+>>> 现在开始正式 Shuffle 实验 (此时文件应该会立即产生)
+
+=== 开始运行 sort 实验 ===
+启动Shuffle文件监控，每秒检查一次...
+[ShuffleMonitor 09:25:10] 文件数: 224, 总大小: 3KB (峰值: 224文件, 3KB)
+[ShuffleMonitor 09:25:11] 文件数: 224, 总大小: 3KB (峰值: 224文件, 3KB)
+[ShuffleMonitor 09:25:12] 文件数: 224, 总大小: 3KB (峰值: 224文件, 3KB)
+[ShuffleMonitor 09:25:13] 文件数: 228, 总大小: 75.26MB (峰值: 228文件, 75.26MB)
+[ShuffleMonitor 09:25:14] 文件数: 228, 总大小: 75.26MB (峰值: 228文件, 75.26MB)
+[ShuffleMonitor 09:25:15] 文件数: 228, 总大小: 75.26MB (峰值: 228文件, 75.26MB)
+[ShuffleMonitor 09:25:16] 文件数: 232, 总大小: 150.52MB (峰值: 232文件, 150.52MB)
+[ShuffleMonitor 09:25:17] 文件数: 234, 总大小: 157.42MB (峰值: 234文件, 157.42MB)
+[ShuffleMonitor 09:25:18] 文件数: 236, 总大小: 225.77MB (峰值: 236文件, 225.77MB)
+[ShuffleMonitor 09:25:19] 文件数: 238, 总大小: 229.86MB (峰值: 238文件, 229.86MB)
+[ShuffleMonitor 09:25:20] 文件数: 240, 总大小: 301.03MB (峰值: 240文件, 301.03MB)
+[ShuffleMonitor 09:25:21] 文件数: 242, 总大小: 334.80MB (峰值: 242文件, 334.80MB)
+[ShuffleMonitor 09:25:22] 文件数: 244, 总大小: 376.28MB (峰值: 244文件, 376.28MB)
+[ShuffleMonitor 09:25:23] 文件数: 246, 总大小: 385.78MB (峰值: 246文件, 385.78MB)
+[ShuffleMonitor 09:25:24] 文件数: 248, 总大小: 451.54MB (峰值: 248文件, 451.54MB)
+[ShuffleMonitor 09:25:25] 文件数: 250, 总大小: 513.94MB (峰值: 250文件, 513.94MB)
+[ShuffleMonitor 09:25:26] 文件数: 252, 总大小: 526.80MB (峰值: 252文件, 526.80MB)
+[ShuffleMonitor 09:25:27] 文件数: 254, 总大小: 592.43MB (峰值: 254文件, 592.43MB)
+[ShuffleMonitor 09:25:28] 文件数: 256, 总大小: 602.05MB (峰值: 256文件, 602.05MB)
+[ShuffleMonitor 09:25:29] 文件数: 260, 总大小: 677.30MB (峰值: 260文件, 677.30MB)
+[ShuffleMonitor 09:25:30] 文件数: 260, 总大小: 677.30MB (峰值: 260文件, 677.30MB)
+[ShuffleMonitor 09:25:31] 文件数: 264, 总大小: 752.55MB (峰值: 264文件, 752.55MB)
+[ShuffleMonitor 09:25:32] 文件数: 264, 总大小: 752.55MB (峰值: 264文件, 752.55MB)
+[ShuffleMonitor 09:25:33] 文件数: 268, 总大小: 827.80MB (峰值: 268文件, 827.80MB)
+[ShuffleMonitor 09:25:34] 文件数: 268, 总大小: 827.80MB (峰值: 268文件, 827.80MB)
+[ShuffleMonitor 09:25:35] 文件数: 272, 总大小: 903.06MB (峰值: 272文件, 903.06MB)
+[ShuffleMonitor 09:25:36] 文件数: 274, 总大小: 950.58MB (峰值: 274文件, 950.58MB)
+[ShuffleMonitor 09:25:37] 文件数: 276, 总大小: 978.31MB (峰值: 276文件, 978.31MB)
+[ShuffleMonitor 09:25:38] 文件数: 280, 总大小: 1.03GB (峰值: 280文件, 1.03GB)
+[ShuffleMonitor 09:25:39] 文件数: 280, 总大小: 1.03GB (峰值: 280文件, 1.03GB)
+[ShuffleMonitor 09:25:40] 文件数: 282, 总大小: 1.08GB (峰值: 282文件, 1.08GB)
+[ShuffleMonitor 09:25:41] 文件数: 284, 总大小: 1.10GB (峰值: 284文件, 1.10GB)
+[ShuffleMonitor 09:25:42] 文件数: 288, 总大小: 1.18GB (峰值: 288文件, 1.18GB)
+[ShuffleMonitor 09:25:43] 文件数: 288, 总大小: 1.18GB (峰值: 288文件, 1.18GB)
+[ShuffleMonitor 09:25:44] 文件数: 292, 总大小: 1.25GB (峰值: 292文件, 1.25GB)
+[ShuffleMonitor 09:25:45] 文件数: 292, 总大小: 1.25GB (峰值: 292文件, 1.25GB)
+[ShuffleMonitor 09:25:46] 文件数: 296, 总大小: 1.32GB (峰值: 296文件, 1.32GB)
+[ShuffleMonitor 09:25:47] 文件数: 296, 总大小: 1.32GB (峰值: 296文件, 1.32GB)
+[ShuffleMonitor 09:25:48] 文件数: 300, 总大小: 1.40GB (峰值: 300文件, 1.40GB)
+[ShuffleMonitor 09:25:49] 文件数: 301, 总大小: 1.40GB (峰值: 301文件, 1.40GB)
+[ShuffleMonitor 09:25:50] 文件数: 304, 总大小: 1.47GB (峰值: 304文件, 1.47GB)
+[ShuffleMonitor 09:25:51] 文件数: 306, 总大小: 1.51GB (峰值: 306文件, 1.51GB)
+[ShuffleMonitor 09:25:52] 文件数: 308, 总大小: 1.54GB (峰值: 308文件, 1.54GB)
+[ShuffleMonitor 09:25:53] 文件数: 312, 总大小: 1.62GB (峰值: 312文件, 1.62GB)
+[ShuffleMonitor 09:25:54] 文件数: 312, 总大小: 1.62GB (峰值: 312文件, 1.62GB)
+[ShuffleMonitor 09:25:55] 文件数: 316, 总大小: 1.69GB (峰值: 316文件, 1.69GB)
+[ShuffleMonitor 09:25:56] 文件数: 316, 总大小: 1.69GB (峰值: 316文件, 1.69GB)
+[ShuffleMonitor 09:25:57] 文件数: 320, 总大小: 1.76GB (峰值: 320文件, 1.76GB)
+[ShuffleMonitor 09:25:58] 文件数: 320, 总大小: 1.76GB (峰值: 320文件, 1.76GB)
+[ShuffleMonitor 09:25:59] 文件数: 324, 总大小: 1.84GB (峰值: 324文件, 1.84GB)
+[ShuffleMonitor 09:26:00] 文件数: 326, 总大小: 1.86GB (峰值: 326文件, 1.86GB)
+[ShuffleMonitor 09:26:01] 文件数: 328, 总大小: 1.91GB (峰值: 328文件, 1.91GB)
+[ShuffleMonitor 09:26:02] 文件数: 328, 总大小: 1.91GB (峰值: 328文件, 1.91GB)
+[ShuffleMonitor 09:26:03] 文件数: 332, 总大小: 1.98GB (峰值: 332文件, 1.98GB)
+[ShuffleMonitor 09:26:04] 文件数: 332, 总大小: 1.98GB (峰值: 332文件, 1.98GB)
+[ShuffleMonitor 09:26:05] 文件数: 336, 总大小: 2.06GB (峰值: 336文件, 2.06GB)
+[ShuffleMonitor 09:26:06] 文件数: 338, 总大小: 2.10GB (峰值: 338文件, 2.10GB)
+[ShuffleMonitor 09:26:07] 文件数: 340, 总大小: 2.13GB (峰值: 340文件, 2.13GB)
+[ShuffleMonitor 09:26:08] 文件数: 344, 总大小: 2.20GB (峰值: 344文件, 2.20GB)
+[ShuffleMonitor 09:26:09] 文件数: 344, 总大小: 2.20GB (峰值: 344文件, 2.20GB)
+[ShuffleMonitor 09:26:10] 文件数: 348, 总大小: 2.28GB (峰值: 348文件, 2.28GB)
+[ShuffleMonitor 09:26:11] 文件数: 348, 总大小: 2.28GB (峰值: 348文件, 2.28GB)
+[ShuffleMonitor 09:26:12] 文件数: 352, 总大小: 2.35GB (峰值: 352文件, 2.35GB)
+[ShuffleMonitor 09:26:13] 文件数: 352, 总大小: 2.35GB (峰值: 352文件, 2.35GB)
+[ShuffleMonitor 09:26:14] 文件数: 356, 总大小: 2.43GB (峰值: 356文件, 2.43GB)
+[ShuffleMonitor 09:26:15] 文件数: 358, 总大小: 2.44GB (峰值: 358文件, 2.44GB)
+[ShuffleMonitor 09:26:16] 文件数: 360, 总大小: 2.50GB (峰值: 360文件, 2.50GB)
+[ShuffleMonitor 09:26:17] 文件数: 363, 总大小: 2.57GB (峰值: 363文件, 2.57GB)
+[ShuffleMonitor 09:26:18] 文件数: 364, 总大小: 2.57GB (峰值: 364文件, 2.57GB)
+[ShuffleMonitor 09:26:20] 文件数: 368, 总大小: 2.65GB (峰值: 368文件, 2.65GB)
+[ShuffleMonitor 09:26:21] 文件数: 368, 总大小: 2.65GB (峰值: 368文件, 2.65GB)
+[ShuffleMonitor 09:26:22] 文件数: 370, 总大小: 2.70GB (峰值: 370文件, 2.70GB)
+[ShuffleMonitor 09:26:23] 文件数: 372, 总大小: 2.72GB (峰值: 372文件, 2.72GB)
+[ShuffleMonitor 09:26:24] 文件数: 376, 总大小: 2.79GB (峰值: 376文件, 2.79GB)
+[ShuffleMonitor 09:26:25] 文件数: 376, 总大小: 2.79GB (峰值: 376文件, 2.79GB)
+[ShuffleMonitor 09:26:26] 文件数: 380, 总大小: 2.87GB (峰值: 380文件, 2.87GB)
+[ShuffleMonitor 09:26:27] 文件数: 380, 总大小: 2.87GB (峰值: 380文件, 2.87GB)
+[ShuffleMonitor 09:26:28] 文件数: 384, 总大小: 2.94GB (峰值: 384文件, 2.94GB)
+[ShuffleMonitor 09:26:29] 文件数: 384, 总大小: 2.94GB (峰值: 384文件, 2.94GB)
+[ShuffleMonitor 09:26:30] 文件数: 388, 总大小: 3.01GB (峰值: 388文件, 3.01GB)
+[ShuffleMonitor 09:26:31] 文件数: 390, 总大小: 3.07GB (峰值: 390文件, 3.07GB)
+[ShuffleMonitor 09:26:32] 文件数: 392, 总大小: 3.09GB (峰值: 392文件, 3.09GB)
+[ShuffleMonitor 09:26:33] 文件数: 396, 总大小: 3.16GB (峰值: 396文件, 3.16GB)
+[ShuffleMonitor 09:26:34] 文件数: 396, 总大小: 3.16GB (峰值: 396文件, 3.16GB)
+[ShuffleMonitor 09:26:35] 文件数: 398, 总大小: 3.23GB (峰值: 398文件, 3.23GB)
+[ShuffleMonitor 09:26:36] 文件数: 398, 总大小: 3.23GB (峰值: 398文件, 3.23GB)
+[ShuffleMonitor 09:26:37] 文件数: 400, 总大小: 3.23GB (峰值: 400文件, 3.23GB)
+[ShuffleMonitor 09:26:38] 文件数: 404, 总大小: 3.31GB (峰值: 404文件, 3.31GB)
+[ShuffleMonitor 09:26:39] 文件数: 404, 总大小: 3.31GB (峰值: 404文件, 3.31GB)
+[ShuffleMonitor 09:26:40] 文件数: 408, 总大小: 3.38GB (峰值: 408文件, 3.38GB)
+[ShuffleMonitor 09:26:41] 文件数: 408, 总大小: 3.38GB (峰值: 408文件, 3.38GB)
+[ShuffleMonitor 09:26:42] 文件数: 412, 总大小: 3.45GB (峰值: 412文件, 3.45GB)
+[ShuffleMonitor 09:26:43] 文件数: 413, 总大小: 3.45GB (峰值: 413文件, 3.45GB)
+[ShuffleMonitor 09:26:44] 文件数: 416, 总大小: 3.53GB (峰值: 416文件, 3.53GB)
+[ShuffleMonitor 09:26:45] 文件数: 418, 总大小: 3.55GB (峰值: 418文件, 3.55GB)
+[ShuffleMonitor 09:26:46] 文件数: 420, 总大小: 3.60GB (峰值: 420文件, 3.60GB)
+[ShuffleMonitor 09:26:47] 文件数: 422, 总大小: 3.61GB (峰值: 422文件, 3.61GB)
+[ShuffleMonitor 09:26:48] 文件数: 424, 总大小: 3.67GB (峰值: 424文件, 3.67GB)
+[ShuffleMonitor 09:26:49] 文件数: 426, 总大小: 3.71GB (峰值: 426文件, 3.71GB)
+[ShuffleMonitor 09:26:50] 文件数: 428, 总大小: 3.75GB (峰值: 428文件, 3.75GB)
+[ShuffleMonitor 09:26:51] 文件数: 432, 总大小: 3.82GB (峰值: 432文件, 3.82GB)
+[ShuffleMonitor 09:26:52] 文件数: 432, 总大小: 3.82GB (峰值: 432文件, 3.82GB)
+[ShuffleMonitor 09:26:53] 文件数: 436, 总大小: 3.89GB (峰值: 436文件, 3.89GB)
+[ShuffleMonitor 09:26:54] 文件数: 436, 总大小: 3.89GB (峰值: 436文件, 3.89GB)
+[ShuffleMonitor 09:26:55] 文件数: 440, 总大小: 3.97GB (峰值: 440文件, 3.97GB)
+[ShuffleMonitor 09:26:56] 文件数: 440, 总大小: 3.97GB (峰值: 440文件, 3.97GB)
+[ShuffleMonitor 09:26:57] 文件数: 444, 总大小: 4.04GB (峰值: 444文件, 4.04GB)
+[ShuffleMonitor 09:26:58] 文件数: 446, 总大小: 4.08GB (峰值: 446文件, 4.08GB)
+[ShuffleMonitor 09:26:59] 文件数: 448, 总大小: 4.12GB (峰值: 448文件, 4.12GB)
+[ShuffleMonitor 09:27:00] 文件数: 448, 总大小: 4.12GB (峰值: 448文件, 4.12GB)
+[ShuffleMonitor 09:27:01] 文件数: 452, 总大小: 4.19GB (峰值: 452文件, 4.19GB)
+[ShuffleMonitor 09:27:02] 文件数: 453, 总大小: 4.20GB (峰值: 453文件, 4.20GB)
+[ShuffleMonitor 09:27:03] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:04] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:05] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:06] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:07] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:08] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:09] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:10] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:11] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:12] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:13] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:14] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:15] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:16] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:17] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:18] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:19] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:20] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:21] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:22] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:23] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:24] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:25] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:26] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:27] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:28] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:29] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:30] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:31] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:32] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:33] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:34] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:35] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:36] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:37] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:38] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:39] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:40] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:41] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:42] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:43] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+[ShuffleMonitor 09:27:44] 文件数: 454, 总大小: 4.23GB (峰值: 454文件, 4.23GB)
+
+[ShuffleMonitor 最终报告]
+峰值文件数: 454
+峰值文件大小: 4.23GB
+推测Shuffle类型: Sort Shuffle
+
+==================================================
+测试结果 [sort]:
+  执行耗时: 149623ms
+  Shuffle数据量: 7.35 GB
+  峰值Shuffle文件数: 454 个
+  峰值Shuffle文件大小: 4430916KB (4327.07MB)
+  Shuffle类型分析: 混合/不确定 (454 个文件)
+  平均每个文件大小: 9759KB

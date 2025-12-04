@@ -1,0 +1,33 @@
+=== Dispatcher: Routing to task [skew] ===
+Running Skew Experiment with args: sort large 0.0
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 11:45:41 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 11:45:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 11:45:41 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 11:45:41 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 11:45:41 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 11:45:41 INFO SecurityManager: Changing view acls to: djk
+25/12/04 11:45:41 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 11:45:41 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 11:45:41 INFO Utils: Successfully started service 'sparkDriver' on port 39321.
+25/12/04 11:45:41 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 11:45:41 INFO Remoting: Starting remoting
+25/12/04 11:45:42 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:43031]
+25/12/04 11:45:42 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 43031.
+25/12/04 11:45:42 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 11:45:42 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 11:45:42 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-890d1609-99d5-4077-9097-b62335d9d37c
+25/12/04 11:45:42 INFO MemoryStore: MemoryStore started with capacity 511.1 MB
+25/12/04 11:45:42 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 11:45:42 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 11:45:42 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 11:45:42 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-cd1e58ff-2c7e-4730-bf83-64d035963fed/httpd-c30cd603-e44e-43a9-a4db-cf622f9c56d1
+25/12/04 11:45:42 INFO HttpServer: Starting HTTP Server
+25/12/04 11:45:42 INFO Utils: Successfully started service 'HTTP file server' on port 44517.
+25/12/04 11:45:42 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:44517/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764848742561
+25/12/04 11:45:42 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 11:45:44 INFO DiskBlockManager: Shutdown hook called
+25/12/04 11:45:44 INFO ShutdownHookManager: Shutdown hook called
+25/12/04 11:45:44 INFO ShutdownHookManager: Deleting directory /tmp/spark/work/spark-cd1e58ff-2c7e-4730-bf83-64d035963fed/userFiles-53c4bb7e-ea5c-45c3-aab7-de6c5b73970f
+25/12/04 11:45:44 INFO ShutdownHookManager: Deleting directory /tmp/spark/work/spark-cd1e58ff-2c7e-4730-bf83-64d035963fed
+25/12/04 11:45:44 INFO ShutdownHookManager: Deleting directory /tmp/spark/work/spark-cd1e58ff-2c7e-4730-bf83-64d035963fed/httpd-c30cd603-e44e-43a9-a4db-cf622f9c56d1

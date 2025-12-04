@@ -1,0 +1,58 @@
+=== Dispatcher: Routing to task [skew] ===
+Running Skew Experiment with args: sort small 0.0
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+25/12/04 11:39:38 INFO SparkContext: Running Spark version 1.6.3
+25/12/04 11:39:38 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/12/04 11:39:38 WARN SparkConf: In Spark 1.0 and later spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone and LOCAL_DIRS in YARN).
+25/12/04 11:39:38 WARN Utils: Your hostname, hygon7490 resolves to a loopback address: 127.0.0.1; using 49.52.27.65 instead (on interface ens2f1np1)
+25/12/04 11:39:38 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/12/04 11:39:38 INFO SecurityManager: Changing view acls to: djk
+25/12/04 11:39:38 INFO SecurityManager: Changing modify acls to: djk
+25/12/04 11:39:38 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(djk); users with modify permissions: Set(djk)
+25/12/04 11:39:39 INFO Utils: Successfully started service 'sparkDriver' on port 33359.
+25/12/04 11:39:39 INFO Slf4jLogger: Slf4jLogger started
+25/12/04 11:39:39 INFO Remoting: Starting remoting
+25/12/04 11:39:39 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@49.52.27.65:43025]
+25/12/04 11:39:39 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 43025.
+25/12/04 11:39:39 INFO SparkEnv: Registering MapOutputTracker
+25/12/04 11:39:39 INFO SparkEnv: Registering BlockManagerMaster
+25/12/04 11:39:39 INFO DiskBlockManager: Created local directory at /tmp/spark/work/blockmgr-07e8ab51-d8d2-4f44-aa46-7c177965e23e
+25/12/04 11:39:39 INFO MemoryStore: MemoryStore started with capacity 511.1 MB
+25/12/04 11:39:39 INFO SparkEnv: Registering OutputCommitCoordinator
+25/12/04 11:39:39 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/12/04 11:39:39 INFO SparkUI: Started SparkUI at http://49.52.27.65:4040
+25/12/04 11:39:39 INFO HttpFileServer: HTTP File server directory is /tmp/spark/work/spark-6671bad1-cdb6-4765-8e82-47f8d4bb62ee/httpd-63b81a1d-551a-4e21-8ee5-05baa2132f78
+25/12/04 11:39:39 INFO HttpServer: Starting HTTP Server
+25/12/04 11:39:39 INFO Utils: Successfully started service 'HTTP file server' on port 35453.
+25/12/04 11:39:39 INFO SparkContext: Added JAR file:/home/djk/Documents/shuffle-experiment/target/scala-2.10/spark-shuffle-experiment-1.0.0.jar at http://49.52.27.65:35453/jars/spark-shuffle-experiment-1.0.0.jar with timestamp 1764848379898
+25/12/04 11:39:39 INFO AppClient$ClientEndpoint: Connecting to master spark://49.52.27.113:7077...
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20251204063940-0132
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor added: app-20251204063940-0132/0 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204063940-0132/0 on hostPort 49.52.27.60:35123 with 2 cores, 2.0 GB RAM
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor added: app-20251204063940-0132/1 on worker-20251203224515-49.52.27.60-35123 (49.52.27.60:35123) with 2 cores
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204063940-0132/1 on hostPort 49.52.27.60:35123 with 2 cores, 2.0 GB RAM
+25/12/04 11:39:45 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 35771.
+25/12/04 11:39:45 INFO NettyBlockTransferService: Server created on 35771
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor added: app-20251204063940-0132/2 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 11:39:45 INFO BlockManagerMaster: Trying to register BlockManager
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204063940-0132/2 on hostPort 49.52.27.65:34725 with 2 cores, 2.0 GB RAM
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor added: app-20251204063940-0132/3 on worker-20251203144508-49.52.27.65-34725 (49.52.27.65:34725) with 2 cores
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: Granted executor ID app-20251204063940-0132/3 on hostPort 49.52.27.65:34725 with 2 cores, 2.0 GB RAM
+25/12/04 11:39:45 INFO BlockManagerMasterEndpoint: Registering block manager 49.52.27.65:35771 with 511.1 MB RAM, BlockManagerId(driver, 49.52.27.65, 35771)
+25/12/04 11:39:45 INFO BlockManagerMaster: Registered BlockManager
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor updated: app-20251204063940-0132/2 is now RUNNING
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor updated: app-20251204063940-0132/3 is now RUNNING
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor updated: app-20251204063940-0132/0 is now RUNNING
+25/12/04 11:39:45 INFO AppClient$ClientEndpoint: Executor updated: app-20251204063940-0132/1 is now RUNNING
+25/12/04 11:39:45 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+=== Shuffle 实验配置 ===
+Manager: sort
+Dataset: small
+Skew:    0.0 (0=Uniform, >0=Zipf)
+>>> 正在预热 (Cache & Count)...
+25/12/04 11:40:02 WARN TaskSchedulerImpl: Initial job has not accepted any resources; check your cluster UI to ensure that workers are registered and have sufficient resources
+>>> 预热完成，记录数: 100000
+
+=== 开始运行 sort-skew0.0 实验 ===
+
+RESULT_CSV: sort,small,0.0,11954,150.68 MB,16,61722KB

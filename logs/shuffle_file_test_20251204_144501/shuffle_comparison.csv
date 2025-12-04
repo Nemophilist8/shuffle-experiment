@@ -1,0 +1,3 @@
+模式,数据集,耗时(ms),峰值文件数,Shuffle数据量
+hash,small,10415,5490,740.41 MB
+sort,small,8802,40,740.68 MB

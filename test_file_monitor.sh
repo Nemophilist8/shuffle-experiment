@@ -68,7 +68,7 @@ run_shuffle_test() {
         --class edu.ecnu.MainEntry \
         --master $MASTER \
         --deploy-mode client \
-        --executor-memory 1G \
+        --executor-memory 8G \
         --driver-memory 512M \
         --executor-cores 2 \
         --conf spark.executor.instances=2 \
@@ -97,15 +97,15 @@ run_shuffle_test() {
 
 # === 循环测试 ===
 
-# medium large
+# small-x small medium large
 
 echo "=== 测试阶段 1: Hash Shuffle ==="
-for size in small-x small; do
+for size in medium; do
     run_shuffle_test "hash" "$size" "Hash Shuffle"
 done
 
 echo "=== 测试阶段 2: Sort Shuffle ==="
-for size in small-x small; do
+for size in medium; do
     run_shuffle_test "sort" "$size" "Sort Shuffle"
 done
 

@@ -25,6 +25,9 @@ object MainEntry {
       case "skew" =>
         SkewExperiment.run(taskArgs)
 
+      case "tpch" =>
+        TPCHTest.run(taskArgs)
+
       case _ =>
         System.err.println(s"Unknown task type: $taskType")
         System.exit(1)
