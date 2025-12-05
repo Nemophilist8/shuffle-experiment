@@ -25,6 +25,9 @@ object MainEntry {
       case "skew" =>
         SkewExperiment.run(taskArgs)
 
+      case "basic" =>
+        BasicExperiment.run(taskArgs)
+
       case "tpch" =>
         TPCHTest.run(taskArgs)
 
